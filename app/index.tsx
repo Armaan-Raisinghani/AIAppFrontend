@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import {
@@ -6,24 +6,65 @@ import {
   VideoCameraSlashIcon,
 } from "react-native-heroicons/outline";
 import "../global.css";
+import axios from "axios";
+
+const Authorization = "test123";
+const api = axios.create({
+  baseURL: "http://10.1.57.64:8000",
+  headers: {
+    Authorization: Authorization,
+  },
+});
+
 export default function Index() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState<boolean>(false);
   const [camera, setCamera] = useState<CameraView | null>(null);
   const [time, setTime] = useState<NodeJS.Timeout | null>(null);
+  const [emotion, setEmotion] = useState<string | null>(null);
+  const [confidence, setConfidence] = useState<number | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const sessionIdRef = useRef<string | null>(null);
+
   useEffect(() => {
     if (!permission) {
       requestPermission();
     }
   }, [permission]);
+
   useEffect(() => {
-    console.log(active);
     if (active) {
       if (camera) {
         setTime(
           setInterval(() => {
-            camera.takePictureAsync().then((img) => {
-              console.log(img);
+            if (!sessionIdRef.current) {
+              return;
+            }
+
+            camera.takePictureAsync({ base64: true }).then((img) => {
+              if (!img || !img.base64) {
+                return;
+              }
+
+              const base64img = `data:image/jpeg;base64,${img.base64}`;
+
+              api
+                .post(
+                  "/process",
+                  {
+                    imageData: base64img,
+                  },
+                  {
+                    headers: {
+                      Authorization: Authorization,
+                      "Content-Type": "application/json",
+                      SessionId: sessionIdRef.current,
+                    },
+                  }
+                )
+                .catch((err) => {
+                  console.error(err.response?.data.detail);
+                });
             });
           }, 1000)
         );
@@ -33,18 +74,58 @@ export default function Index() {
       setTime(null);
     }
   }, [active, camera]);
+
   useEffect(() => {
-    console.log(time);
-  }, [time]);
-  function handlePress() {
+    sessionIdRef.current = sessionId;
+  }, [sessionId]);
+
+  async function handlePress() {
     const t = !active;
     setActive(!active);
     if (t) {
       console.log("Camera active");
+      setEmotion(null);
+      setConfidence(null);
+
+      try {
+        const response = await api.put(
+          "/start",
+          {},
+          {
+            headers: {
+              Authorization: Authorization,
+            },
+          }
+        );
+        setSessionId(response.data.SessionId);
+      } catch (err) {
+        console.error(err);
+      }
     } else {
       console.log("Camera inactive");
+      clearInterval(time);
+
+      if (!sessionId) {
+        return;
+      }
+
+      try {
+        const response = await api.delete("/stop", {
+          headers: {
+            Authorization: Authorization,
+            SessionId: sessionId,
+          },
+        });
+        setEmotion(response.data.emotion);
+        setConfidence(response.data.confidence);
+      } catch (err) {
+        console.error(err);
+      }
+
+      setSessionId(null);
     }
   }
+
   return (
     <ScrollView
       className={
@@ -52,13 +133,19 @@ export default function Index() {
         (active ? "border-red-600 border-solid border-8 p-8" : "")
       }
     >
-      {active && (
-        <CameraView facing="front" ref={(ref) => setCamera(ref)}></CameraView>
-      )}
+      {active && <CameraView facing="front" ref={setCamera}></CameraView>}
       {!permission && (
         <View>
           <Text>We need your permission to show the camera</Text>
           <Button onPress={requestPermission} title="grant permission" />
+        </View>
+      )}
+      {emotion && confidence && (
+        <View>
+          <Text>
+            Emotion: {emotion}
+            {"\n"} Confidence: {confidence}
+          </Text>
         </View>
       )}
       {/* Main Content Container */}
