@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import {
   Button,
-  Image,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -11,9 +10,18 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import "../global.css";
 import axios from "axios";
 import { router } from "expo-router";
-import data from "../assets/emoz.json";
+import data from "../assets/emoz.js";
 import React from "react";
 
+type EmotionData = {
+  "angry":String[],
+  "disgust":String[],
+  "fear":String[],
+  "neutral":String[],
+  "sad":String[],
+  "surprise":String[],
+  "happy":String[],
+}
 const Authorization = "test123";
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/",
@@ -21,8 +29,6 @@ const api = axios.create({
     Authorization: Authorization,
   },
 });
-
-const classes = Object.keys(data);
 
 export default function recordScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -34,9 +40,8 @@ export default function recordScreen() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
 
-  const randClass = classes[Math.floor(Math.random() * classes.length)];
+  const randClass = data[Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)]];
   const text = randClass[Math.floor(Math.random() * randClass.length)];
-
   useEffect(() => {
     if (!permission) {
       requestPermission();
