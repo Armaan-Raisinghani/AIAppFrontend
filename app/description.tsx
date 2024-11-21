@@ -1,35 +1,55 @@
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 // Entry Screen Component
-const descriptionScreen = () => {
+const indexScreen = () => {
   return (
-    <SafeAreaView className="flex-1 bg-white-200 items-center justify-center">
+    <SafeAreaView className="flex-1 bg-blue-500 items-center justify-center">
       {/* Outer Container */}
-      <View className="bg-white w-11/12 h-5/6 rounded-lg shadow-lg">
+      <View className="bg-white w-3/4 p-4 rounded-lg shadow-md">
         {/* Header Section */}
-        <View className="bg-teal-700 w-10/12 mx-auto mt-8 p-4">
-          <Text className="text-white text-center text-lg font-bold">
+        <View>
+          <Text className="text-black text-center text-lg font-bold">
             Instructions
           </Text>
         </View>
+        <View>
+          <Text className="text-black justify p-8 text-lg">
+            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum. {"\n"} 2. Lorem
+            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.{"\n"} 3. Lorem ipsum dolor
+            sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </Text>
+        </View>
         {/* Content Section */}
-        <View className="bg-teal-700 w-5/6 mx-auto my-4 p-4 h-[60%]"></View>
+        <View className="bg-white w-10/12 mx-auto my--0 p-4 h-[60%]"></View>
         <TouchableOpacity
           onPress={() => {
-            router.push("record");
+            router.push("/record");
           }}
-        >
-          <View className="bg-teal-700 w-[40%] mx-auto my-8 p-4 rounded-full">
-            <Text className="text-white text-center text-lg font-bold">
-              Enter
-            </Text>
-          </View>
+        ></TouchableOpacity>
+        <TouchableOpacity className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2">
+          <Text className="text-center text-white font-semibold">Enter</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
-
-// Export NativeWind Stylesheet
-export default descriptionScreen;
+export default indexScreen;
