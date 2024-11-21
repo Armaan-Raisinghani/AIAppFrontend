@@ -17,10 +17,17 @@ const indexScreen = () => {
       <View className="bg-white w-3/4 p-4 rounded-lg shadow-md">
         {/* Header Section */}
         <View>
-          <Text className="text-black text-center text-lg font-bold">
+          <Text className="text-black text-center text-3xl font-bold">
             Instructions
           </Text>
         </View>
+
+        {/* ImOcean */}
+        <View className="mt-4 mb-2">
+          <Text className="text-center font-medium text-gray-500">ImOcean</Text>
+          <View className="border-b border-gray-300 mt-1 mx-12"></View>
+        </View>
+
         <View>
           <Text className="text-black justify p-8 text-lg">
             1. Click on the 'Start' button. {"\n"}2. ⁠Start reading the text

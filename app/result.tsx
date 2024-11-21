@@ -14,7 +14,7 @@ const WelcomeScreen = () => {
       {/* Main Card */}
       <View className="bg-white w-3/4 max-w-lg p-6 h-96 rounded-lg shadow-md">
         {/* Title */}
-        <Text className="text-xl font-bold text-center">Result</Text>
+        <Text className="text-3xl font-bold text-center">Result</Text>
 
         {/* ImOcean */}
         <View className="mt-4 mb-2">
@@ -23,7 +23,7 @@ const WelcomeScreen = () => {
         </View>
 
         {/* Project Description */}
-        <Text className="text-center text-gray-600 mt-4">
+        <Text className="text-center text-gray-600 mt-4 text-lg">
           Expression predicted by text: {predicted}
           {"\n"}
           Correct expression: {correct}

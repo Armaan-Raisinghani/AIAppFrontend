@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import "../global.css";
 import axios from "axios";
 import { router } from "expo-router";
 import data from "../assets/emoz";
@@ -43,7 +42,7 @@ export default function recordScreen() {
     ] as keyof EmotionData;
     setRandClass(r);
     console.log(randClass);
-    setText(data[r][Math.floor(Math.random() * data[r ].length)]);
+    setText(data[r][Math.floor(Math.random() * data[r].length)]);
   }, []);
 
   useEffect(() => {
@@ -103,7 +102,6 @@ export default function recordScreen() {
     const t = !active;
     setActive(!active);
     if (t) {
-      
       setLoading(false);
       console.log("Camera active");
       setEmotion(null);
@@ -160,7 +158,11 @@ export default function recordScreen() {
     }
   }, [emotion]);
   return (
-    <View className={"bg-blue-400 h-full flex align-middle items-center p-2 justify-center content-center"}>
+    <View
+      className={
+        "bg-blue-400 h-full flex align-middle items-center p-2 justify-center content-center"
+      }
+    >
       <TouchableOpacity
         className="absolute top-10 left-5 bg-blue-800 py-2 px-4 rounded-full"
         onPress={() => {
@@ -169,10 +171,10 @@ export default function recordScreen() {
       >
         <Text className="text-center text-white font-semibold">Back</Text>
       </TouchableOpacity>
-      
+
       <ScrollView
         className={
-          "p-10 rounded-3xl m-10 flex flex-col  gap-10 box-content w-3/5 top-1/4 "
+          "py-10 px-3 rounded-3xl m-10 flex flex-col gap-10 box-content w-3/5 top-1/4"
         }
       >
         {active && <CameraView facing="front" ref={setCamera}></CameraView>}
@@ -183,29 +185,39 @@ export default function recordScreen() {
           </View>
         )}
         {/* Main Content Container */}
-        <View className="bg-white rounded-3xl">
+        <View className="bg-white rounded-3xl p-4">
           <View>
-            <Text className="text-4xl font-bold p-5 m-auto ">
+            <Text className="text-3xl font-bold px-5 pt-4 m-auto">
               Read the following text:
             </Text>
-            <Text className="p-8 pt-0 m-auto ">{text}</Text>
+
+            {/* ImOcean */}
+            <View className="my-4 mb-2">
+              <Text className="text-center font-medium text-gray-500">
+                ImOcean
+              </Text>
+              <View className="border-b border-gray-300 mt-1 mx-12"></View>
+            </View>
+
+            <Text className="p-8 pt-6 m-auto text-lg">{text}</Text>
           </View>
         </View>
+
         {/* Camera Button */}
-        <View className="flex align-middle flex-row justify-center ">
+        <View className="flex align-middle flex-row justify-center">
           <TouchableOpacity
-            className="m-10 p-5 bg-blue-800 rounded"
+            className="m-10 p-4 bg-blue-800 rounded"
             disabled={active}
             onPress={handlePress}
           >
-            <Text className={"text-4xl text-white"}>Start</Text>
+            <Text className={"text-2xl text-white"}>Start</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="m-10 p-5 bg-blue-800 rounded"
+            className="m-10 p-4 bg-blue-800 rounded"
             disabled={!active}
             onPress={handlePress}
           >
-            <Text className={"text-4xl text-white "}>Stop</Text>
+            <Text className={"text-2xl text-white "}>Stop</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -218,7 +230,7 @@ export default function recordScreen() {
       )}
       {loading && (
         <View className="absolute bottom-40 left-1/2 transform -translate-x-1/2">
-          <Text className="text-center text-2xl text-white">Loading...</Text>
+          <Text className="text-center text-5xl text-white">Loading...</Text>
         </View>
       )}
     </View>

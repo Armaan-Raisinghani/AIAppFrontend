@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
       {/* Main Card */}
       <View className="bg-white w-3/4 max-w-lg p-6 h-96 rounded-lg shadow-md">
         {/* Title */}
-        <Text className="text-xl font-bold text-center">Welcome</Text>
+        <Text className="text-3xl font-bold text-center">Welcome</Text>
 
         {/* ImOcean */}
         <View className="mt-4 mb-2">
@@ -18,7 +18,7 @@ const WelcomeScreen = () => {
         </View>
 
         {/* Project Description */}
-        <Text className="text-center text-gray-600 mt-4">
+        <Text className="text-center text-gray-600 mt-4 text-lg">
           A brief summary of the project, what does it do? What is it used for?
         </Text>
 
