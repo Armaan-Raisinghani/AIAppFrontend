@@ -23,27 +23,9 @@ const indexScreen = () => {
         </View>
         <View>
           <Text className="text-black justify p-8 text-lg">
-            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. {"\n"} 2. Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.{"\n"} 3. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.
+            1. Click on the 'Start' button. {"\n"}2. ⁠Start reading the text
+            given in your mind. {"\n"}3. ⁠React to the text you read, as per
+            what seems appropriate. {"\n"}4. ⁠Click on the ‘Stop’ button.
           </Text>
         </View>
         {/* Content Section */}
@@ -53,9 +35,12 @@ const indexScreen = () => {
             router.push("/record");
           }}
         ></TouchableOpacity>
-        <TouchableOpacity className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2" onPress={()=>{
-          router.push("/record")
-        }}>
+        <TouchableOpacity
+          className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2"
+          onPress={() => {
+            router.push("/record");
+          }}
+        >
           <Text className="text-center text-white font-semibold">Enter</Text>
         </TouchableOpacity>
       </View>

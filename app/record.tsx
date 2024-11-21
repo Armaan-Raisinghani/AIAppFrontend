@@ -6,7 +6,6 @@ import axios from "axios";
 import { router } from "expo-router";
 import data from "../assets/emoz";
 import React from "react";
-import LoaderKit from "react-native-loader-kit";
 
 type EmotionData = {
   angry: String[];
@@ -34,14 +33,17 @@ export default function recordScreen() {
   const [confidence, setConfidence] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [text, setText] = useState<string | null>(null);
+  const [randClass, setRandClass] = useState<keyof EmotionData | null>(null);
   const sessionIdRef = useRef<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   useMemo(() => {
-    const randClass = Object.keys(data)[
+    const r = Object.keys(data)[
       Math.floor(Math.random() * Object.keys(data).length)
     ] as keyof EmotionData;
-    setText(randClass[Math.floor(Math.random() * randClass.length)]);
+    setRandClass(r);
+    console.log(randClass);
+    setText(data[r][Math.floor(Math.random() * data[r ].length)]);
   }, []);
 
   useEffect(() => {
@@ -101,6 +103,8 @@ export default function recordScreen() {
     const t = !active;
     setActive(!active);
     if (t) {
+      
+      setLoading(false);
       console.log("Camera active");
       setEmotion(null);
       setConfidence(null);
@@ -156,7 +160,7 @@ export default function recordScreen() {
     }
   }, [emotion]);
   return (
-    <View className={"bg-blue-400 h-full flex align-middle items-center p-2 "}>
+    <View className={"bg-blue-400 h-full flex align-middle items-center p-2 justify-center content-center"}>
       <TouchableOpacity
         className="absolute top-10 left-5 bg-blue-800 py-2 px-4 rounded-full"
         onPress={() => {
@@ -165,9 +169,10 @@ export default function recordScreen() {
       >
         <Text className="text-center text-white font-semibold">Back</Text>
       </TouchableOpacity>
+      
       <ScrollView
         className={
-          "p-10 rounded-3xl m-10 flex flex-col  gap-10 box-content w-3/5  "
+          "p-10 rounded-3xl m-10 flex flex-col  gap-10 box-content w-3/5 top-1/4 "
         }
       >
         {active && <CameraView facing="front" ref={setCamera}></CameraView>}
@@ -206,17 +211,15 @@ export default function recordScreen() {
       </ScrollView>
       {active && (
         <View>
-          <Text className="bottom-40 text-center text-5xl text-lg font-bold text-red-500">
+          <Text className="bottom-40 text-center text-5xl font-bold text-red-500">
             Recording
           </Text>
         </View>
       )}
       {loading && (
-        <LoaderKit
-          style={{ width: 50, height: 50 }}
-          name={"BallSpinFadeLoader"} // Optional: see list of animations below
-          color={"#2c5282"} // Optional: color can be: 'red', 'green',... or '#ddd', '#ffffff',...
-        />
+        <View className="absolute bottom-40 left-1/2 transform -translate-x-1/2">
+          <Text className="text-center text-2xl text-white">Loading...</Text>
+        </View>
       )}
     </View>
   );

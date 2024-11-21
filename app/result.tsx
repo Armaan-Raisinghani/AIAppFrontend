@@ -6,7 +6,7 @@ const WelcomeScreen = () => {
   const searchParams = useLocalSearchParams();
   const predicted = searchParams.predicted as string;
   const correct = searchParams.correct as string;
-  const confidence = Number(searchParams.confidence)
+  const confidence = Number(searchParams.confidence);
   const roundedConfidence = confidence.toFixed(2);
 
   return (
@@ -16,11 +16,9 @@ const WelcomeScreen = () => {
         {/* Title */}
         <Text className="text-xl font-bold text-center">Result</Text>
 
-        {/* Project Name */}
+        {/* ImOcean */}
         <View className="mt-4 mb-2">
-          <Text className="text-center font-medium text-gray-500">
-            Project Name
-          </Text>
+          <Text className="text-center font-medium text-gray-500">ImOcean</Text>
           <View className="border-b border-gray-300 mt-1 mx-12"></View>
         </View>
 
