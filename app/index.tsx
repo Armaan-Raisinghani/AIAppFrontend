@@ -52,7 +52,7 @@ const WelcomeScreen = () => {
 
         {/* CTLC Lab Button */}
         <TouchableOpacity className="bg-blue-500 py-2 px-4 rounded-md shadow-md">
-          <Text className="text-white font-semibold">CTLC LAB</Text>
+          <Text className="text-white font-semibold">CTLC</Text>
         </TouchableOpacity>
       </View>
     </View>

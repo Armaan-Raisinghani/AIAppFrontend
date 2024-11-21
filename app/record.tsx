@@ -1,27 +1,22 @@
-import { useEffect, useState, useRef } from "react";
-import {
-  Button,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import "../global.css";
 import axios from "axios";
 import { router } from "expo-router";
 import data from "../assets/emoz.js";
 import React from "react";
+import LoaderKit from "react-native-loader-kit";
 
 type EmotionData = {
-  "angry":String[],
-  "disgust":String[],
-  "fear":String[],
-  "neutral":String[],
-  "sad":String[],
-  "surprise":String[],
-  "happy":String[],
-}
+  angry: String[];
+  disgust: String[];
+  fear: String[];
+  neutral: String[];
+  sad: String[];
+  surprise: String[];
+  happy: String[];
+};
 const Authorization = "test123";
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/",
@@ -38,10 +33,18 @@ export default function recordScreen() {
   const [emotion, setEmotion] = useState<string | null>(null);
   const [confidence, setConfidence] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [text, setText] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const randClass = data[Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)]];
-  const text = randClass[Math.floor(Math.random() * randClass.length)];
+  useMemo(() => {
+    const randClass =
+      data[
+        Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)]
+      ];
+    setText(randClass[Math.floor(Math.random() * randClass.length)]);
+  }, []);
+
   useEffect(() => {
     if (!permission) {
       requestPermission();
@@ -124,7 +127,7 @@ export default function recordScreen() {
       if (!sessionId) {
         return;
       }
-
+      setLoading(true);
       try {
         const response = await api.delete("/stop", {
           headers: {
@@ -143,12 +146,7 @@ export default function recordScreen() {
   }
 
   return (
-    <View
-      className={
-        "bg-blue-400 h-full flex align-middle items-center p-2 " +
-        (active ? "border-red-600 border-solid border-8 p-0 " : "")
-      }
-    >
+    <View className={"bg-blue-400 h-full flex align-middle items-center p-2 "}>
       <TouchableOpacity
         className="absolute top-10 left-5 bg-blue-800 py-2 px-4 rounded-full"
         onPress={() => {
@@ -180,7 +178,7 @@ export default function recordScreen() {
         {/* Main Content Container */}
         <View className="bg-white rounded-3xl">
           <View>
-            <Text className="text-xl font-bold p-5 m-auto ">
+            <Text className="text-4xl font-bold p-5 m-auto ">
               Read the following text:
             </Text>
             <Text className="p-8 pt-0 m-auto ">{text}</Text>
@@ -189,25 +187,35 @@ export default function recordScreen() {
         {/* Camera Button */}
         <View className="flex align-middle flex-row justify-center ">
           <TouchableOpacity
-            className="m-10 p-5 bg-blue-800 "
+            className="m-10 p-5 bg-blue-800 rounded"
             disabled={active}
             onPress={handlePress}
           >
-            <Text className={"text-3xl " + (!active ? "text-white" : "")}>
-              Start
-            </Text>
+            <Text className={"text-4xl text-white"}>Start</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="m-10 p-5 bg-blue-800 "
+            className="m-10 p-5 bg-blue-800 rounded"
             disabled={!active}
             onPress={handlePress}
           >
-            <Text className={"text-3xl " + (active ? "text-white" : "")}>
-              Stop
-            </Text>
+            <Text className={"text-4xl text-white "}>Stop</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {active && (
+        <View>
+          <Text className="bottom-40 text-center text-5xl text-lg font-bold text-red-500">
+            Recording
+          </Text>
+        </View>
+      )}
+      {loading && (
+        <LoaderKit
+          style={{ width: 50, height: 50 }}
+          name={"BallSpinFadeLoader"} // Optional: see list of animations below
+          color={"#2c5282"} // Optional: color can be: 'red', 'green',... or '#ddd', '#ffffff',...
+        />
+      )}
     </View>
   );
 }
