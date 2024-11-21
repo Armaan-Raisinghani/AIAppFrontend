@@ -1,30 +1,24 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  Button,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import "../global.css";
 import axios from "axios";
 import { router } from "expo-router";
-import data from "../assets/emoz.js";
+import data from "../assets/emoz";
 import React from "react";
 
 type EmotionData = {
-  "angry":String[],
-  "disgust":String[],
-  "fear":String[],
-  "neutral":String[],
-  "sad":String[],
-  "surprise":String[],
-  "happy":String[],
-}
+  angry: String[];
+  disgust: String[];
+  fear: String[];
+  neutral: String[];
+  sad: String[];
+  surprise: String[];
+  happy: String[];
+};
 const Authorization = "test123";
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: "http://34.131.3.188:8000/",
   headers: {
     Authorization: Authorization,
   },
@@ -40,8 +34,11 @@ export default function recordScreen() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
 
-  const randClass = data[Object.keys(data)[Math.floor(Math.random() * Object.keys(data).length)]];
-  const text = randClass[Math.floor(Math.random() * randClass.length)];
+  const randClass = Object.keys(data)[
+    Math.floor(Math.random() * Object.keys(data).length)
+  ] as keyof EmotionData;
+  const text =
+    data[randClass][Math.floor(Math.random() * data[randClass].length)];
   useEffect(() => {
     if (!permission) {
       requestPermission();
@@ -141,7 +138,18 @@ export default function recordScreen() {
       setSessionId(null);
     }
   }
-
+  useEffect(() => {
+    if (emotion) {
+      router.push({
+        pathname: "/result",
+        params: {
+          predicted: emotion,
+          correct: randClass,
+          confidence,
+        },
+      });
+    }
+  }, [emotion]);
   return (
     <View
       className={
@@ -167,14 +175,6 @@ export default function recordScreen() {
           <View>
             <Text>We need your permission to show the camera</Text>
             <Button onPress={requestPermission} title="grant permission" />
-          </View>
-        )}
-        {emotion && confidence && (
-          <View>
-            <Text>
-              Emotion: {emotion}
-              {"\n"} Confidence: {confidence}
-            </Text>
           </View>
         )}
         {/* Main Content Container */}
