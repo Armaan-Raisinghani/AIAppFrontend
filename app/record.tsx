@@ -7,6 +7,8 @@ import {
 } from "react-native-heroicons/outline";
 import "../global.css";
 import axios from "axios";
+import data from "../assets/emoz.json";
+import React from "react";
 
 const Authorization = "test123";
 const api = axios.create({
@@ -15,6 +17,8 @@ const api = axios.create({
     Authorization: Authorization,
   },
 });
+
+const classes = Object.keys(data);
 
 export default function recordScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -25,6 +29,9 @@ export default function recordScreen() {
   const [confidence, setConfidence] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
+
+  const randClass = classes[Math.floor(Math.random() * classes.length)];
+  const text = randClass[Math.floor(Math.random() * randClass.length)];
 
   useEffect(() => {
     if (!permission) {
@@ -151,49 +158,12 @@ export default function recordScreen() {
       {/* Main Content Container */}
       <View className="bg-white rounded-3xl h-4/5">
         <ScrollView>
-          <Text className="text-2xl p-10 m-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-          </Text>
+          <Text className="text-2xl p-10 m-auto">{text}</Text>
         </ScrollView>
       </View>
       {/* Camera Button */}
       <TouchableOpacity
-        className="bg-white rounded-full items-center m-auto p-10 h-1/6"
+        className="bg-teal-700 rounded-full items-center m-auto p-10 h-1/6"
         onPress={handlePress}
       >
         {active ? (
