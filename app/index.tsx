@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
@@ -23,13 +24,17 @@ const WelcomeScreen = () => {
         </Text>
 
         {/* Enter Button */}
-        <TouchableOpacity className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2">
+        <TouchableOpacity
+          className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2"
+          onPress={() => {
+            router.push("/description");
+          }}
+        >
           <Text className="text-center text-white font-semibold">Enter</Text>
         </TouchableOpacity>
       </View>
       {/* Plaksha Logo */}
       <Image
-        className=""
         source={require("../assets/images/logo-white.png")}
         style={{
           width: 250,

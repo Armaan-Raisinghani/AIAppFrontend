@@ -1,20 +1,30 @@
 import { useEffect, useState, useRef } from "react";
-import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { CameraView, useCameraPermissions } from "expo-camera";
 import {
-  VideoCameraIcon,
-  VideoCameraSlashIcon,
-} from "react-native-heroicons/outline";
+  Button,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import "../global.css";
 import axios from "axios";
+import { router } from "expo-router";
 
 const Authorization = "test123";
 const api = axios.create({
-  baseURL: "http://10.1.57.64:8000",
+  baseURL: "http://127.0.0.1:8000/",
   headers: {
     Authorization: Authorization,
   },
 });
+/* 
+console.log('runs')
+api.put("/").catch(()=>{
+  console.log('Server is not running')
+}); // To check if the server is running
+ */
 
 export default function recordScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -25,7 +35,7 @@ export default function recordScreen() {
   const [confidence, setConfidence] = useState<number | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
-
+//  api.put("/", {});
   useEffect(() => {
     if (!permission) {
       requestPermission();
@@ -127,85 +137,108 @@ export default function recordScreen() {
   }
 
   return (
-    <ScrollView
+    <View
       className={
-        "bg-primary p-10 rounded-3xl m-10 flex-auto flex-col content-center gap-10 box-content " +
-        (active ? "border-red-600 border-solid border-8 p-8" : "")
+        "bg-blue-400 h-full flex align-middle items-center p-2 " +
+        (active ? "border-red-600 border-solid border-8 p-0 " : "")
       }
     >
-      {active && <CameraView facing="front" ref={setCamera}></CameraView>}
-      {!permission && (
-        <View>
-          <Text>We need your permission to show the camera</Text>
-          <Button onPress={requestPermission} title="grant permission" />
-        </View>
-      )}
-      {emotion && confidence && (
-        <View>
-          <Text>
-            Emotion: {emotion}
-            {"\n"} Confidence: {confidence}
-          </Text>
-        </View>
-      )}
-      {/* Main Content Container */}
-      <View className="bg-white rounded-3xl h-4/5">
-        <ScrollView>
-          <Text className="text-2xl p-10 m-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-            {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-            ut aliquip ex ea commodo consequat.
-          </Text>
-        </ScrollView>
-      </View>
-      {/* Camera Button */}
       <TouchableOpacity
-        className="bg-white rounded-full items-center m-auto p-10 h-1/6"
-        onPress={handlePress}
+        className="absolute top-10 left-5 bg-blue-800 py-2 px-4 rounded-full"
+        onPress={() => {
+          router.back();
+        }}
       >
-        {active ? (
-          <VideoCameraIcon className="fill-primary" color="white" size={120} />
-        ) : (
-          <VideoCameraSlashIcon
-            className="fill-primary"
-            color="white"
-            size={120}
-          />
-        )}
+        <Text className="text-center text-white font-semibold">Back</Text>
       </TouchableOpacity>
-    </ScrollView>
+      <ScrollView
+        className={
+          "p-10 rounded-3xl m-10 flex flex-col  gap-10 box-content w-3/5  "
+        }
+      >
+        {active && <CameraView facing="front" ref={setCamera}></CameraView>}
+        {!permission && (
+          <View>
+            <Text>We need your permission to show the camera</Text>
+            <Button onPress={requestPermission} title="grant permission" />
+          </View>
+        )}
+        {emotion && confidence && (
+          <View>
+            <Text>
+              Emotion: {emotion}
+              {"\n"} Confidence: {confidence}
+            </Text>
+          </View>
+        )}
+        {/* Main Content Container */}
+        <View className="bg-white rounded-3xl">
+          <View>
+            <Text className="text-xl font-bold p-5 m-auto ">
+              Read the following text:
+            </Text>
+            <Text className="p-8 pt-0 m-auto ">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+              {"\n"} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </Text>
+          </View>
+        </View>
+        {/* Camera Button */}
+        <View className="flex align-middle flex-row justify-center ">
+          <TouchableOpacity
+            className="m-10 p-5 bg-blue-800 "
+            disabled={active}
+            onPress={handlePress}
+          >
+            <Text className={"text-3xl " + (!active ? "text-white" : "")}>
+              Start
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="m-10 p-5 bg-blue-800 "
+            disabled={!active}
+            onPress={handlePress}
+          >
+            <Text className={"text-3xl " + (active ? "text-white" : "")}>
+              Stop
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }

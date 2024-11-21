@@ -4,8 +4,16 @@ import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 // Entry Screen Component
 const indexScreen = () => {
   return (
-    <SafeAreaView className="flex-1 bg-blue-500 items-center justify-center">
+    <SafeAreaView className="flex-1 bg-blue-400 items-center justify-center">
       {/* Outer Container */}
+      <TouchableOpacity
+        className="absolute top-10 left-5 bg-blue-800 py-2 px-4 rounded-full"
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <Text className="text-center text-white font-semibold">Back</Text>
+      </TouchableOpacity>
       <View className="bg-white w-3/4 p-4 rounded-lg shadow-md">
         {/* Header Section */}
         <View>
@@ -39,13 +47,15 @@ const indexScreen = () => {
           </Text>
         </View>
         {/* Content Section */}
-        <View className="bg-white w-10/12 mx-auto my--0 p-4 h-[60%]"></View>
+        <View className="bg-white w-10/12 mx-auto my--0 p-4 h-[10%]"></View>
         <TouchableOpacity
           onPress={() => {
             router.push("/record");
           }}
         ></TouchableOpacity>
-        <TouchableOpacity className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2">
+        <TouchableOpacity className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2" onPress={()=>{
+          router.push("/record")
+        }}>
           <Text className="text-center text-white font-semibold">Enter</Text>
         </TouchableOpacity>
       </View>
