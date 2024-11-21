@@ -19,7 +19,7 @@ const WelcomeScreen = () => {
 
         {/* Project Description */}
         <Text className="text-center text-gray-600 mt-4 text-lg">
-          A brief summary of the project, what does it do? What is it used for?
+          Dive into the ocean of human emotions and expressions with this face recognition AI model.
         </Text>
 
         {/* Enter Button */}

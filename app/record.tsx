@@ -206,25 +206,25 @@ export default function recordScreen() {
         {/* Camera Button */}
         <View className="flex align-middle flex-row justify-center">
           <TouchableOpacity
-            className="m-10 p-4 bg-blue-800 rounded"
+            className="m-10 p-4 bg-blue-800 rounded-3xl px-10"
             disabled={active}
             onPress={handlePress}
           >
             <Text className={"text-2xl text-white"}>Start</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="m-10 p-4 bg-blue-800 rounded"
+            className="m-10 p-4 bg-blue-800 rounded-3xl px-10"
             disabled={!active}
             onPress={handlePress}
           >
-            <Text className={"text-2xl text-white "}>Stop</Text>
+            <Text className={"text-2xl text-white"}>Stop</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
       {active && (
         <View>
           <Text className="bottom-40 text-center text-5xl font-bold text-red-500">
-            Recording
+            Recording...
           </Text>
         </View>
       )}
