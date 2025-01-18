@@ -13,7 +13,7 @@ const WelcomeScreen = () => {
 
         {/* ImOcean */}
         <View className="mt-4 mb-2">
-          <Text className="text-center font-medium text-gray-500">ImOcean</Text>
+          <Text className="text-center font-medium text-gray-500">EmOcean</Text>
           <View className="border-b border-gray-300 mt-1 mx-12"></View>
         </View>
 
