@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Linking} from "react-native";
 
 const WelcomeScreen = () => {
   const searchParams = useLocalSearchParams();
@@ -8,7 +8,8 @@ const WelcomeScreen = () => {
   const correct = searchParams.correct as string;
   const confidence = Number(searchParams.confidence);
   const roundedConfidence = confidence.toFixed(2);
-
+  const url =
+    "https://docs.google.com/forms/d/e/1FAIpQLSdz_CZPlX0EeclwkHFbgZTAFXbwvN1bLqdgIoG9750xhYCNbQ/viewform?usp=dialog";
   return (
     <View className="flex-1 bg-blue-400 justify-center items-center">
       {/* Main Card */}
@@ -23,23 +24,40 @@ const WelcomeScreen = () => {
         </View>
 
         {/* Project Description */}
-        <Text className="text-center text-gray-600 mt-4 text-lg">
+        <Text className="text-center text-gray-600 mt-4 text-lg mb-8">
           Expression predicted by text: {predicted}
           {"\n"}
           Correct expression: {correct}
           {"\n"}
           AI model confidence: {roundedConfidence}
         </Text>
-
-        {/* Enter Button */}
-        <TouchableOpacity
-          className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2"
-          onPress={() => {
-            router.dismissAll();
-          }}
-        >
-          <Text className="text-center text-white font-semibold">Restart</Text>
-        </TouchableOpacity>
+        <View className="flex-1 mt-8">
+          {/* Enter Button */}
+          <TouchableOpacity
+            className="bg-blue-800 py-2 px-4 mt-6 rounded-full absolute bottom-10 self-center w-1/2 mb-12"
+            onPress={() => {
+              router.dismissAll();
+            }}
+          >
+            <Text className="text-center text-white font-semibold">
+              Restart
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-blue-800 py-2 px-4 mt-12 rounded-full absolute bottom-10 self-center w-1/2"
+            onPress={() => {
+              Linking.canOpenURL(url).then((supported) => {
+                if (supported) {
+                  Linking.openURL(url);
+                } else {
+                  console.log("Cannot open URL:", url);
+                }
+              });
+            }}
+          >
+            <Text className="text-center text-white font-semibold">Survey</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {/* Plaksha Logo */}
       <Image

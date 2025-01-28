@@ -5,7 +5,6 @@ import axios from "axios";
 import { router } from "expo-router";
 import data from "../assets/emoz";
 import React from "react";
-
 type EmotionData = {
   angry: String[];
   disgust: String[];
@@ -15,7 +14,7 @@ type EmotionData = {
   surprise: String[];
   happy: String[];
 };
-const Authorization = "test123";
+const Authorization = "2514";
 const api = axios.create({
   baseURL: "http://34.131.3.188:8000/",
   headers: {
@@ -41,7 +40,6 @@ export default function recordScreen() {
       Math.floor(Math.random() * Object.keys(data).length)
     ] as keyof EmotionData;
     setRandClass(r);
-    console.log(randClass);
     setText(data[r][Math.floor(Math.random() * data[r].length)]);
   }, []);
 
