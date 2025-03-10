@@ -16,7 +16,8 @@ type EmotionData = {
 };
 const Authorization = "2514";
 const api = axios.create({
-  baseURL: "http://34.131.3.188:8000/",
+  baseURL: "http://172.21.154.165:5000/",
+  timeout: 10000,
   headers: {
     Authorization: Authorization,
   },
@@ -172,7 +173,7 @@ export default function recordScreen() {
 
       <ScrollView
         className={
-          "py-10 px-3 rounded-3xl m-10 flex flex-col gap-10 box-content w-3/5 top-1/4"
+          "md:py-10 py-20 px-3 rounded-3xl m-10 flex flex-col gap-10 box-content md:w-3/5 md:top-1/4 w-full"
         }
       >
         {active && <CameraView facing="front" ref={setCamera}></CameraView>}
@@ -221,7 +222,7 @@ export default function recordScreen() {
       </ScrollView>
       {active && (
         <View>
-          <Text className="bottom-40 text-center text-5xl font-bold text-red-500">
+          <Text className="md:bottom-40 bottom-20 text-center md:text-5xl text-2xl font-bold text-red-500">
             Recording...
           </Text>
         </View>
